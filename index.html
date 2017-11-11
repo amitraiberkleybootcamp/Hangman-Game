@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+</head>
+<body>
+
+
+	<div class="jumbotron">
+  		<h2 align="center">Guess Word Here</h2>
+  		<p id="blanks" align="center"></p>
+  		<h2 align="center">User Choice</h2>
+		<p id="wrongGuessedLetters" align="center"></p>
+		<h2 align="center">Remaining Chance</h2>
+		<p id="chance" align="center"></p>
+	</div>
+
+<script type="text/javascript">
+
+	var animalNames = ['lion', 'tiger','racoon','alligator','girrafe','cheetah','anaconda','gorilla','cougar','capybara','macaw','crow','cow','python'];
+
+	var computerWordChoice = '';
+
+	var wrongGuessedLetters = [];
+
+	var blanks = [];
+
+	var wins = 0;
+
+	var loss = 0;
+
+	var guessChance = 2;
+
+	var userGuess = '';
+
+	var wrongChoices = [];
+
+	var wrongGuess = true;
+
+	var underscoreString;
+
+	startGame();
+	
+	function startGame() {
+		// body...
+		computerWordChoice = animalNames[Math.floor(Math.random()*animalNames.length)];
+		for (var i = 0; i < computerWordChoice.length; i++) {
+			blanks[i] = '-';
+			underscoreString = blanks.join(" ");
+			document.getElementById("blanks").innerHTML = underscoreString;
+
+
+		}
+	}
+
+	document.onkeyup = function() {
+		document.getElementById("chance").innerHTML = guessChance;
+
+		//for (var i = guessChance; i >= 0; guessChance--) {
+		if((guessChance > 0) && (blanks.indexOf("-")>=0)){
+
+			userGuess = event.key.toLowerCase();
+			wrongGuess = true;
+
+			for (var i = 0; i < computerWordChoice.length; i++) {
+
+				if(userGuess ===computerWordChoice[i]){
+					blanks[i] = userGuess;
+					underscoreString = blanks.join(" ");
+					document.getElementById("blanks").innerHTML = underscoreString;
+					wrongGuess = false;
+
+				}
+
+			}
+
+			if(wrongGuess){
+				guessChance = guessChance - 1;
+				wrongGuessedLetters.push(userGuess);
+				document.getElementById("wrongGuessedLetters").innerHTML = wrongGuessedLetters.join("");
+
+			}
+
+
+		} else
+
+		{
+			if (blanks.indexOf("-")>=0){
+				loss = loss + 1;
+				alert("You lose");
+
+			} else{
+				alert("You win");
+			}
+		}
+
+		//}
+	}
+
+
+
+
+</script>
+</body>
+</html>
